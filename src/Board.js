@@ -29,13 +29,24 @@ class Board extends React.Component {
     this.state = {
       squares: Array(9).fill(''),
       status: 'X',
+      winned: '',
     };
+  }
+
+  setWinned(winne) {
+    this.setState({winned:winne});
+    return;
   }
 
   handleClick(i) {
     console.log("from handleclick");
     const squares = this.state.squares.slice();
-    if (squares[i] === '') {
+    let winne = winner(this.state.squares);
+      if(winne !== null) {
+        this.setWinned(winne);
+        return;
+      }
+    if (squares[i] === '' && this.state.winned === '') {
       squares[i] = this.state.status;
       this.setState({squares: squares});
       if (this.state.status === 'X'){
@@ -48,7 +59,6 @@ class Board extends React.Component {
   }
 
   renderSquare(i) {
-    console.log("for sqaure" + i);
     return (
       <Square
         value={this.state.squares[i]}
@@ -58,10 +68,10 @@ class Board extends React.Component {
   }
 
   render() {
-    console.log("from render");
-    const winne = winner(this.state.squares);
+    console.log("from render" + this.state.winned);
     let status;
-    if (winne) {
+    let winne = winner(this.state.squares);
+    if (winne !== null) {
       status = 'Winner: ' + winne;
     } else {
       status = 'Next player: ' + this.state.status;
