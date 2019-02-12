@@ -1,13 +1,71 @@
 import React from 'react';
+import './Board.css';
 import Square from './Square.js';
 
+function winner(squares) {
+  console.log("from function");
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+  return null;
+}
+
 class Board extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      squares: Array(9).fill(''),
+      status: 'X',
+    };
+  }
+
+  handleClick(i) {
+    console.log("from handleclick");
+    const squares = this.state.squares.slice();
+    if (squares[i] === '') {
+      squares[i] = this.state.status;
+      this.setState({squares: squares});
+      if (this.state.status === 'X'){
+        this.setState({status:'O'});
+      }
+      else if (this.state.status === 'O'){
+        this.setState({status:'X'});
+      }
+    }
+  }
+
   renderSquare(i) {
-    return <Square />;
+    console.log("for sqaure" + i);
+    return (
+      <Square
+        value={this.state.squares[i]}
+        onClick={() => this.handleClick(i)}
+      />
+    );
   }
 
   render() {
-    const status = 'Next player: X';
+    console.log("from render");
+    const winne = winner(this.state.squares);
+    let status;
+    if (winne) {
+      status = 'Winner: ' + winne;
+    } else {
+      status = 'Next player: ' + this.state.status;
+    }
 
     return (
       <div>
