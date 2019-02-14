@@ -23,6 +23,14 @@ function winner(squares) {
   return null;
 }
 
+function checkEmpty(squares) {
+  for (let i=0;i<squares.length;i++){
+    if(squares[i]==='')
+      return false;
+  }
+  return true;
+}
+
 class Game extends React.Component {
   constructor(props) {
     super(props);
@@ -70,6 +78,9 @@ class Game extends React.Component {
     if(this.state.winned !==  null && this.state.winned !==  ''){
       window.location.reload();
     }
+    let checkempty = checkEmpty(this.state.squares);
+    if(checkempty && winne === null)
+      window.location.reload();
 
     return (
       <div className="game">
