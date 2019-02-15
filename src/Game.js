@@ -86,6 +86,14 @@ class Game extends React.Component {
     let checkempty = checkEmpty(squares1);
     if(checkempty && winne === null)
       window.location.reload();
+    const moves = history1.map( (step, move) => {
+      const desc = move ? "Go to move : " + move : "Go to start";
+      return (
+        <li key={move}>
+          <button onClick={() => console.log('clicked for move : ' + move)}>{desc}</button>
+        </li>
+      )
+    } );
 
     return (
       <div className="game">
@@ -93,8 +101,7 @@ class Game extends React.Component {
           <Board status={status} onClick={(i) => this.handleClick(i)} squares={squares1}/>
         </div>
         <div className="game-info">
-          <div>{/* status */}</div>
-          <ol>{/* TODO */}</ol>
+          <ol>{moves}</ol>
         </div>
       </div>
     );
