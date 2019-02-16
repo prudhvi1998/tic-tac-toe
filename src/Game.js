@@ -3,7 +3,7 @@ import './Game.css';
 import Board from './Board.js';
 
 function winner(squares) {
-  console.log("from function");
+  // console.log("from function");
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -47,7 +47,7 @@ class Game extends React.Component {
   }
 
   handleClick(i) {
-    console.log("from handleclick");
+    // console.log("from handleclick");
     const history1 = this.state.history;
     const current = history1[history1.length - 1];
     const squares1 = current.squares.slice();
@@ -68,8 +68,25 @@ class Game extends React.Component {
     }
   }
 
+  gotoMove(index){
+    const history1 = this.state.history;
+    let x = []
+    for(let i=0;i<=index;i++){
+      //let s = history1[i].squares;
+      x = x.concat(history1[i]);
+    }
+    // console.log("x : " + x + "hello no problem :" + index + " history : " + history1);
+    this.setState({history : x});
+    if(index % 2 === 0){
+      this.setState({status:'X'});
+    }
+    else {
+      this.setState({status:'O'});
+    }
+  }
+
   render() {
-    console.log("from render" + this.state.winned);
+    // console.log("from render" + this.state.winned);
     let status;
     const history1 = this.state.history;
     const current = history1[history1.length - 1];
@@ -90,7 +107,7 @@ class Game extends React.Component {
       const desc = move ? "Go to move : " + move : "Go to start";
       return (
         <li key={move}>
-          <button onClick={() => console.log('clicked for move : ' + move)}>{desc}</button>
+          <button onClick={() => this.gotoMove(move)}>{desc}</button>
         </li>
       )
     } );
